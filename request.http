@@ -1,0 +1,20 @@
+### Create
+POST http://localhost:8081/api/v1/employees
+Content-Type: application/json
+
+{"name": "Ravi", "salary": 50000}
+
+### List
+GET http://localhost:8081/api/v1/employees
+
+### Empty name
+POST http://localhost:8081/api/v1/employees
+Content-Type: application/json
+
+{"name": "", "salary": 50000}
+
+### Negative salary
+POST http://localhost:8081/api/v1/employees
+Content-Type: application/json
+
+{"name": "Anita", "salary": -100}
