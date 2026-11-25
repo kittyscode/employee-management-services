@@ -41,6 +41,19 @@ public class EmployeeController {
        log.info("GET /employees/{}  called ", id);
         return ResponseEntity.ok(employeeService.getById(id));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee employee){
+        log.info("PUT /employees/{}  called ", id);
+        Employee updated = employeeService.update(id, employee);
+        return ResponseEntity.ok(updated);
 
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Employee> delete( @PathVariable Long id) {
+        log.info("DELETE /employee/{} caleed",id);
+        employeeService.delete(id);
+        return ResponseEntity.noContent().build();
+
+    }
 
 }

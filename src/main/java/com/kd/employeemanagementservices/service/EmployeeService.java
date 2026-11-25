@@ -24,25 +24,41 @@ public class EmployeeService {
     }
 
     public Employee save(Employee employee) {
-
-        if (employee.getName() == null || employee.getName().isBlank()) {
-            throw new IllegalArgumentException("Name is Required");
-
-        }
-
-        if (employee.getSalary() < 0) {
-            throw new IllegalArgumentException("Salary cannot be negative ");
-        }
-
+        validate(employee);
         log.info("Saving employee: {}", employee.getName());
         return repository.save(employee);
     }
+
     public Employee getById(Long id) {
         log.debug("Fetching employee with id: {}", id);
-        return repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee id not found - "+id));
+        return repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee id not found - " + id));
     }
 
+    private void validate(Employee employee) {
+        if (employee.getName() == null || employee.getName().isBlank()) {
+            throw new IllegalArgumentException("Name is Required");
+        }
+        if (employee.getSalary() < 0) {
+            throw new IllegalArgumentException("Salary cannot be negative ");
+        }
+    }
 
+    public Employee update(Long id,Employee updated) {
+        validate(updated);
+        Employee existing = getById(id);
+        existing.setName(updated.getName());
+        existing.setSalary(updated.getSalary());
+
+        log.info("Updating employee: {}", updated.getName());
+        return repository.save(existing);
+    }
+
+    public void delete(Long id) {
+
+        Employee employee = repository.findById(id).orElseThrow(()-> new EmployeeNotFoundException("Employee id not found - " + id));
+        log.info("Deleting employee: {}", employee.getName());
+        repository.delete(employee);
+    }
 
 }
 
